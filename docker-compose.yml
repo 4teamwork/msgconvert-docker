@@ -1,0 +1,10 @@
+version: "3.8"
+
+services:
+  msgconvert:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: msgconvert:latest
+    ports:
+      - 3000:8080
