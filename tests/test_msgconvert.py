@@ -1,6 +1,7 @@
 import os.path
 import pytest
 import requests
+import shlex
 import socket
 import subprocess
 import time
@@ -41,22 +42,13 @@ def msgconvert():
     """Builds the docker image, starts the container and returns its URL.
     """
     context = os.path.dirname(os.path.dirname(__file__))
-    subprocess.run(['docker', 'build', '-t', 'msgconvert:latest', context])
+    run(f'docker build -t msgconvert:latest {context}')
     port = find_free_port()
-    subprocess.run([
-        'docker',
-        'run',
-        '-d',
-        '-p',
-        f'{port}:8080',
-        '--name',
-        'msgconvert',
-        'msgconvert:latest',
-    ])
+    run(f'docker run -d -p {port}:8080 --name msgconvert msgconvert:latest')
     wait_until_ready(f'http://localhost:{port}')
     yield f'http://localhost:{port}'
-    subprocess.run(['docker', 'stop', 'msgconvert'])
-    subprocess.run(['docker', 'rm', 'msgconvert'])
+    run('docker stop msgconvert')
+    run('docker rm msgconvert')
 
 
 @pytest.fixture(scope="module")
@@ -85,3 +77,10 @@ def find_free_port():
     port = s.getsockname()[1]
     s.close()
     return port
+
+
+def run(cmd):
+    args = shlex.split(cmd)
+    proc = subprocess.run(args, capture_output=True, text=True)
+    if proc.returncode != 0:
+        pytest.fail(proc.stderr, pytrace=False)
