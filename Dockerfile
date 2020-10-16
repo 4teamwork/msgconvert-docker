@@ -46,6 +46,7 @@ RUN apk add --no-cache --repository /packages \
     perl-email-outlook-message \
     py3-aiohttp
 
+ENV PYTHONUNBUFFERED 1
 WORKDIR /app
 USER msgconvert
 

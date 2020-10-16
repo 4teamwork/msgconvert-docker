@@ -1,3 +1,7 @@
 .git/
 .gitignore
 .github/
+bin/
+lib/
+include/
+pyvenv.cfg

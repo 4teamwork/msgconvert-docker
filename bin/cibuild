@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+${PYTHON38:-python3.8} -m venv ./venv
+. venv/bin/activate
+
+pip install pytest requests
+pytest
+
