@@ -45,7 +45,7 @@ def msgconvert():
     run(f'docker build -t msgconvert:latest {context}')
     port = find_free_port()
     run(f'docker run -d -p {port}:8080 --name msgconvert msgconvert:latest')
-    wait_until_ready(f'http://localhost:{port}')
+    wait_until_ready(f'http://localhost:{port}/healthcheck')
     yield f'http://localhost:{port}'
     run('docker stop msgconvert')
     run('docker rm msgconvert')

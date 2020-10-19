@@ -87,6 +87,10 @@ async def save_part_to_file(part, directory):
     return filename
 
 
+async def healthcheck(request):
+    return web.Response(status=200, text=f"OK")
+
+
 if __name__ == '__main__':
     logging.basicConfig(
         format='%(asctime)s %(levelname)s %(name)s %(message)s',
@@ -94,4 +98,5 @@ if __name__ == '__main__':
     )
     app = web.Application()
     app.add_routes([web.post('/', msgconvert)])
+    app.add_routes([web.get('/healthcheck', healthcheck)])
     web.run_app(app)
