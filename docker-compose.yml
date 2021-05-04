@@ -6,5 +6,6 @@ services:
       context: .
       dockerfile: Dockerfile
     image: msgconvert:latest
+    image: 4teamwork/msgconvert:latest
     ports:
       - 3000:8080
