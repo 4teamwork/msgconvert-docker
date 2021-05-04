@@ -5,7 +5,7 @@ pkgname=perl-email-outlook-message
 #_pkgreal is used by apkbuild-cpan to find modules at MetaCpan
 _pkgreal=Email-Outlook-Message
 pkgver=0.920
-pkgrel=0
+pkgrel=1
 pkgdesc="Read Outlook .msg files"
 url="https://metacpan.org/release/Email-Outlook-Message/"
 arch="noarch"
@@ -13,8 +13,17 @@ license="GPL-1.0-or-later OR Artistic-1.0-Perl"
 depends="perl perl-email-address perl-email-sender perl-io-all perl-email-simple perl-io-string perl-email-mime perl-ole-storage_lite perl-email-mime-contenttype"
 makedepends="perl-dev perl-module-build perl-module-build"
 subpackages="$pkgname-doc"
-source="https://cpan.metacpan.org/authors/id/M/MV/MVZ/Email-Outlook-Message-$pkgver.tar.gz"
+source=""
+_giturl="https://github.com/mvz/email-outlook-message-perl.git"
+_gitrev="dd382f47fd112032bf91cb673178a27142d23e38"
 builddir="$srcdir/$_pkgreal-$pkgver"
+
+prepare() {
+	default_prepare
+	git clone "${_giturl}" "${srcdir}/${_pkgreal}-${pkgver}" || return 1
+	cd "${srcdir}/${_pkgreal}-${pkgver}"
+	git checkout "${_gitrev}" || return 1
+}
 
 build() {
 	export CFLAGS=$(perl -MConfig -E 'say $Config{ccflags}')
@@ -30,5 +39,3 @@ package() {
 	./Build install --destdir="$pkgdir"
 	find "$pkgdir" \( -name perllocal.pod -o -name .packlist \) -delete
 }
-
-sha512sums="e2c4d69318cd5028816fc9476c671cfc86c9a7b7e180696d2cac2d103de53f679859353acc52a81ebc5de4cc4afc3497b61966e63fa9c138ab7427a6ef780b2c  Email-Outlook-Message-0.920.tar.gz"
