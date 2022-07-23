@@ -27,7 +27,7 @@ async def msgconvert(request):
             'Bad request. Received content type %s instead of multipart/form-data.',
             request.content_type,
         )
-        return web.Response(status=400, text=f"Multipart request required.")
+        return web.Response(status=400, text="Multipart request required.")
 
     reader = await request.multipart()
 
@@ -73,7 +73,7 @@ async def msgconvert(request):
                     status=500, text=f"Conversion failed. {res.stderr}")
 
     logger.info('Bad request. No msg provided.')
-    return web.Response(status=400, text=f"No msg provided.")
+    return web.Response(status=400, text="No msg provided.")
 
 
 async def save_part_to_file(part, directory):
@@ -88,7 +88,7 @@ async def save_part_to_file(part, directory):
 
 
 async def healthcheck(request):
-    return web.Response(status=200, text=f"OK")
+    return web.Response(status=200, text="OK")
 
 
 if __name__ == '__main__':
