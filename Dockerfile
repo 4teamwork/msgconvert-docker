@@ -1,4 +1,4 @@
-FROM alpine:3.12 as pkg-builder
+FROM alpine:3.16 as pkg-builder
 
 RUN apk -U add \
     sudo \
@@ -34,7 +34,7 @@ RUN cd perl-io-all && \
     abuild -r
 
 
-FROM alpine:3.12
+FROM alpine:3.16
 
 RUN addgroup --system msgconvert \
      && adduser --system --ingroup msgconvert msgconvert
