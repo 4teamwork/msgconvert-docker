@@ -4,8 +4,8 @@
 pkgname=perl-email-outlook-message
 #_pkgreal is used by apkbuild-cpan to find modules at MetaCpan
 _pkgreal=Email-Outlook-Message
-pkgver=0.920
-pkgrel=1
+pkgver=0.921
+pkgrel=0
 pkgdesc="Read Outlook .msg files"
 url="https://metacpan.org/release/Email-Outlook-Message/"
 arch="noarch"
@@ -15,7 +15,7 @@ makedepends="perl-dev perl-module-build perl-module-build"
 subpackages="$pkgname-doc"
 source=""
 _giturl="https://github.com/mvz/email-outlook-message-perl.git"
-_gitrev="dd382f47fd112032bf91cb673178a27142d23e38"
+_gitrev="cb720eaf8a14c12e3895ccc72b95d972f1d98b4c"
 builddir="$srcdir/$_pkgreal-$pkgver"
 
 prepare() {
