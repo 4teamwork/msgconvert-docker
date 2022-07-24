@@ -4,7 +4,7 @@
 pkgname=perl-pod-usage
 #_pkgreal is used by apkbuild-cpan to find modules at MetaCpan
 _pkgreal=Pod-Usage
-pkgver=1.70
+pkgver=2.03
 pkgrel=0
 pkgdesc="Pod::Usage extracts POD documentation and shows usage information"
 url="https://metacpan.org/release/Pod-Usage/"
@@ -32,4 +32,6 @@ package() {
 	find "$pkgdir" \( -name perllocal.pod -o -name .packlist \) -delete
 }
 
-sha512sums="1c8a14cd360ff3c3f6e7e127f02fada77b349e03fa71a6441707d05af60b801876b020a90e953ba73496a1e715cf34dddfcba66e5a97478db0a44e961ee589a1  Pod-Usage-1.70.tar.gz"
+sha512sums="
+7c95f711c5acc8007feeffdeabae20965729d01ecaf678d96d991e25e176ec42d9a765409c681f6dc76d12d09d7558ed52755bd279bc1cd20866223d0ba511c9  Pod-Usage-2.03.tar.gz
+"
