@@ -4,7 +4,7 @@
 pkgname=perl-email-sender
 #_pkgreal is used by apkbuild-cpan to find modules at MetaCpan
 _pkgreal=Email-Sender
-pkgver=2.500
+pkgver=2.600
 pkgrel=0
 pkgdesc="a library for sending email"
 url="https://metacpan.org/release/Email-Sender/"
@@ -34,5 +34,5 @@ package() {
 }
 
 sha512sums="
-d7b9848ed7e218abaa9a47ef3c3f79f5fdd728a67795904655ad4df4b536f1df40bf80e0b6838112e26e71d56341e88b6044e6867fc351d41918b117a52ebbf3  Email-Sender-2.500.tar.gz
+2c28cc1f5c36488bf573a6e806ec4fbbe5fe3560fbb24c237375586a3f4e87df4c539e494910950a66e235296733fc9d186c49d9c7c5c016b17f2eacb62b17c6  Email-Sender-2.600.tar.gz
 "

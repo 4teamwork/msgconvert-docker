@@ -1,10 +1,11 @@
-FROM alpine:3.16 as pkg-builder
+FROM alpine:3.19 as pkg-builder
 
 RUN apk -U add \
     sudo \
     alpine-sdk \
     apkbuild-cpan \
-    perl-doc
+    perl-doc \
+    perl-email-address-xs
 
 RUN mkdir -p /var/cache/distfiles && \
     adduser -D packager && \
@@ -14,10 +15,11 @@ RUN mkdir -p /var/cache/distfiles && \
     echo "packager ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
 WORKDIR /work
+RUN chown packager /work
 USER packager
 
-COPY --chown=packager:packager .abuild /home/packager/.abuild/
-COPY .abuild/packager-5f82cd49.rsa.pub /etc/apk/keys/
+RUN abuild-keygen -a -i -n
+
 COPY --chown=packager:packager packages/ ./
 
 RUN cd perl-io-all && \
@@ -34,13 +36,13 @@ RUN cd perl-io-all && \
     abuild -r
 
 
-FROM alpine:3.16
+FROM alpine:3.19
 
 RUN addgroup --system msgconvert \
      && adduser --system --ingroup msgconvert msgconvert
 
 COPY --from=pkg-builder /home/packager/packages/work/ /packages/
-COPY .abuild/packager-5f82cd49.rsa.pub /etc/apk/keys/
+COPY --from=pkg-builder /home/packager/.abuild/*.pub /etc/apk/keys/
 
 RUN apk add --no-cache --repository /packages \
     perl-email-outlook-message \
