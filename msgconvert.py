@@ -45,12 +45,12 @@ async def msgconvert(request):
             outfilename = os.path.join(
                 temp_dir, os.path.basename(form_data['msg']) + '.eml')
 
-            res = await run(
+            proc, stdout, stderr = await run(
                 'msgconvert', '--outfile', outfilename, form_data['msg'].encode(),
                 timeout=request.app['config']['call_timeout'],
             )
 
-            if res is not None and res.returncode == 0:
+            if proc is not None and proc.returncode == 0:
                 response = web.StreamResponse(
                     status=200,
                     reason='OK',
@@ -68,15 +68,15 @@ async def msgconvert(request):
                 await response.write_eof()
                 return response
             else:
-                if res is None:
+                if proc is None:
                     logger.error('Conversion failed.')
                     return web.Response(
                         status=500, text='Conversion failed.')
 
                 else:
-                    logger.error('Conversion failed. %s', res.stderr)
+                    logger.error('Conversion failed. %s', stderr)
                     return web.Response(
-                        status=500, text=f"Conversion failed. {res.stderr}")
+                        status=500, text=f"Conversion failed. {stderr}")
 
     logger.info('Bad request. No msg provided.')
     return web.Response(status=400, text="No msg provided.")
@@ -97,7 +97,7 @@ async def healthcheck(request):
     return web.Response(status=200, text="OK")
 
 
-async def run(*cmd, input=None, timeout=30):
+async def run(*cmd, input=None, timeout=30, encoding='utf8'):
     try:
         proc = await asyncio.create_subprocess_exec(
             *cmd,
@@ -114,7 +114,7 @@ async def run(*cmd, input=None, timeout=30):
         logger.exception('Calling %s failed', cmd)
         return None
 
-    return proc
+    return proc, stdout.decode(encoding), stderr.decode(encoding)
 
 
 def get_config():
