@@ -41,10 +41,9 @@ FROM alpine:3.19
 RUN addgroup --system msgconvert \
      && adduser --system --ingroup msgconvert msgconvert
 
-COPY --from=pkg-builder /home/packager/packages/work/ /packages/
-COPY --from=pkg-builder /home/packager/.abuild/*.pub /etc/apk/keys/
-
-RUN apk add --no-cache --repository /packages \
+RUN --mount=from=pkg-builder,source=/home/packager/packages/work,target=/packages \
+    --mount=from=pkg-builder,source=/etc/apk/keys,target=/etc/apk/keys \
+    apk add --no-cache --repository /packages \
     perl-email-outlook-message \
     py3-aiohttp
 
