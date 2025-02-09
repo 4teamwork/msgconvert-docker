@@ -1,11 +1,11 @@
-FROM alpine:3.19 as alpine-upgrader
+FROM alpine:3.21 AS alpine-upgrader
 RUN apk upgrade --no-cache
 
-FROM scratch as alpine-upgraded
+FROM scratch AS alpine-upgraded
 COPY --from=alpine-upgrader / /
 CMD ["/bin/sh"]
 
-FROM alpine-upgraded as pkg-builder
+FROM alpine-upgraded AS pkg-builder
 
 RUN apk -U add \
     sudo \
